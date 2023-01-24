@@ -133,4 +133,12 @@ INSERT INTO http_methods (method) VALUES ('GET'), ('HEAD'), ('POST'), ('PUT'), (
 CREATE TABLE track (id INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY, user VARCHAR(100) NOT NULL DEFAULT 'testUser', method VARCHAR(7) NOT NULL, resource VARCHAR(100), CONSTRAINT http_methods_method_fk FOREIGN KEY (method) REFERENCES http_methods(method));
 CREATE TABLE career (career_name VARCHAR(128) NOT NULL PRIMARY KEY, creation_date DATE);
 INSERT INTO career (career_name, creation_date) VALUES ('Telematics engineering', '2023-01-01'), ('Electrical engineering', '2023-01-24');
+CREATE TABLE subject (subject_name VARCHAR(128) NOT NULL PRIMARY KEY, creation_date DATE);
+INSERT INTO subject (subject_name, creation_date) VALUES ('Introductory mathematics', '2023-01-01'), ('Internet protocols', '2023-01-01'), ('Electrical theory', '2023-01-01');
+CREATE TABLE teacher (teacher_name VARCHAR(128) NOT NULL PRIMARY KEY);
+INSERT INTO teacher (teacher_name) VALUES ('Ann'), ('Bob'), ('Charles');
+CREATE TABLE career_subject (career_name VARCHAR(128) NOT NULL, subject_name VARCHAR(128) NOT NULL, PRIMARY KEY (career_name, subject_name), CONSTRAINT career_subject_career_name_career_fk FOREIGN KEY (career_name) REFERENCES career(career_name), CONSTRAINT career_subject_subject_name_subject_fk FOREIGN KEY (subject_name) REFERENCES subject(subject_name));
+INSERT INTO career_subject (career_name, subject_name) VALUES ('Telematics engineering', 'Introductory mathematics'), ('Electrical engineering', 'Introductory mathematics'), ('Telematics engineering', 'Internet protocols'), ('Electrical engineering', 'Electrical theory');
+CREATE TABLE subject_teacher (subject_name VARCHAR(128) NOT NULL, teacher_name VARCHAR(128) NOT NULL, PRIMARY KEY (subject_name, teacher_name), CONSTRAINT subject_teacher_teacher_name_teacher_fk FOREIGN KEY (teacher_name) REFERENCES teacher(teacher_name), CONSTRAINT subject_teacher_subject_name_subject_fk FOREIGN KEY (subject_name) REFERENCES subject(subject_name));
+INSERT INTO subject_teacher (subject_name, teacher_name) VALUES ('Introductory mathematics', 'Ann'), ('Internet protocols', 'Bob'), ('Electrical theory', 'Charles');
 ```
