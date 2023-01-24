@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("university/careers")
 public class UniversityController {
@@ -14,8 +16,8 @@ public class UniversityController {
     LogicService logicService;
 
     @GetMapping("/career-list")
-    public String careers() {
-        return logicService.getCareers();
+    public List<String> careers() {
+        return logicService.getAllCareers();
     }
 
 }

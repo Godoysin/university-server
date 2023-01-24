@@ -131,4 +131,6 @@ USE university;
 CREATE TABLE http_methods (method VARCHAR(7) NOT NULL PRIMARY KEY);
 INSERT INTO http_methods (method) VALUES ('GET'), ('HEAD'), ('POST'), ('PUT'), ('DELETE'), ('CONNECT'), ('OPTIONS'), ('TRACE'), ('PATCH');
 CREATE TABLE track (id INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY, user VARCHAR(100) NOT NULL DEFAULT 'testUser', method VARCHAR(7) NOT NULL, resource VARCHAR(100), CONSTRAINT http_methods_method_fk FOREIGN KEY (method) REFERENCES http_methods(method));
+CREATE TABLE career (career_name VARCHAR(128) NOT NULL PRIMARY KEY, creation_date DATE);
+INSERT INTO career (career_name, creation_date) VALUES ('Telematics engineering', '2023-01-01'), ('Electrical engineering', '2023-01-24');
 ```
