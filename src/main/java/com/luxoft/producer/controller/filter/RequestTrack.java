@@ -22,7 +22,7 @@ public class RequestTrack implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         log.info("Request received from: {} {}", req.getMethod(), req.getRequestURI());
-        topicWriter.send(req.getMethod(), req.getRequestURI());
+        topicWriter.trackTopicSender(req.getMethod(), req.getRequestURI());
         chain.doFilter(request, response);
     }
 

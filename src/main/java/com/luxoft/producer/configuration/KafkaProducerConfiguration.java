@@ -20,7 +20,7 @@ public class KafkaProducerConfiguration {
     private static final String CLIENT_ID = "ex";
 
     @Bean
-    public ProducerFactory<Void, TrackAvro> producerFactory() {
+    public ProducerFactory<Void, Object> producerFactory() {
         Map<String, Object> properties = new HashMap<>();
 
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
@@ -33,7 +33,7 @@ public class KafkaProducerConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<Void, TrackAvro> kafkaTemplate() {
+    public KafkaTemplate<Void, Object> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
