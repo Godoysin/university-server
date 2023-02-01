@@ -1,4 +1,4 @@
-package com.luxoft.producer.configuration;
+package com.luxoft.producer.kafka.configuration;
 
 import com.luxoft.messages.avro.TrackAvro;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;

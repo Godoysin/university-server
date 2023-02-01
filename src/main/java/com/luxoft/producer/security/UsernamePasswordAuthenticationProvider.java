@@ -30,15 +30,11 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
         String username = authentication.getName();
         String pwd = authentication.getCredentials().toString();
         List<User> userList = List.of(new User("test", "test"));
-        if (userList.size() > 0) {
-            if (passwordEncoder.matches(pwd, userList.get(0).getPassword())) {
-                return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(userList.get(0).getAuthorities()));
-            } else {
-                throw new BadCredentialsException("Invalid password!");
-            }
-        }else {
-            throw new BadCredentialsException("No user registered with this details!");
+        if (userList.size() > 0 && passwordEncoder.matches(pwd, userList.get(0).getPassword())) {
+            return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(userList.get(0).getAuthorities()));
         }
+
+        throw new BadCredentialsException("User could not be authenticated");
     }
 
 //    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities) {

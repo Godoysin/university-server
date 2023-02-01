@@ -28,7 +28,7 @@ public class JwtUtils {
 		return Jwts.builder()
 				.setClaims(Map.of(
 						"username", username,
-						"authorities", "authority"
+						"authorities", "AuthorityTest"
 				))
 				.setSubject(username)
 				.setIssuer("CodeJava")

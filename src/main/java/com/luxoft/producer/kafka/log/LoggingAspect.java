@@ -1,4 +1,4 @@
-package com.luxoft.producer.kafka.login;
+package com.luxoft.producer.kafka.log;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Slf4j
 @Component
-public class LoginAspect {
+public class LoggingAspect {
 
     @Before("execution(* com.luxoft.producer.kafka.TopicWriter.sendTo*(..))")
     public void print(JoinPoint joinPoint) {

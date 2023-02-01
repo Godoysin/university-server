@@ -1,8 +1,6 @@
 package com.luxoft.producer.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,12 +9,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-//@Entity
-//@Table(name = "user")
+@Entity
+@Table(name = "user")
 //public class User implements UserDetails {
 public class User {
 
-    private String username;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String name;
     private String password;
 
 //    private boolean accountNonExpired;
@@ -24,8 +25,23 @@ public class User {
 //    private boolean credentialsNonExpired;
 //    private boolean enabled;
 
-    public User(String username, String password) {
-        setUsername(username);
+    public User() {
+//        super();
+    }
+
+    public User(String name, String password) {
+//        super();
+        setName(name);
+        setPassword(password);
+//        setAccountNonExpired(true);
+//        setAccountNonLocked(true);
+//        setCredentialsNonExpired(true);
+//        setEnabled(true);
+    }
+
+    public User(Long id, String name, String password) {
+        setId(id);
+        setName(name);
         setPassword(password);
 //        setAccountNonExpired(true);
 //        setAccountNonLocked(true);
@@ -36,10 +52,18 @@ public class User {
 //    @Override
     public Set<String> getAuthorities() {
         return Set.of("AuthorityTest");
-//        return List.of(new SimpleGrantedAuthority(getUsername()));
+//        return List.of(new SimpleGrantedAuthority(getName()));
     }
 
-//    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    //    @Override
     public String getPassword() {
         return password;
     }
@@ -49,12 +73,12 @@ public class User {
     }
 
 //    @Override
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
 //    @Override

@@ -2,6 +2,7 @@ package com.luxoft.producer.kafka;
 
 import com.luxoft.messages.avro.TrackAvro;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class TopicWriter {
     }
 
     public void trackTopicSender(String httpMethod, String resource) {
-        TrackAvro trackAvro = new TrackAvro("noUser", httpMethod, resource, String.valueOf(System.currentTimeMillis()));
+        TrackAvro trackAvro = new TrackAvro("noUser", httpMethod, resource, new DateTime(System.currentTimeMillis()));
 
         sendToTrackTopic(trackAvro);
     }

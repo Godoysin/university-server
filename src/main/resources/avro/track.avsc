@@ -7,7 +7,6 @@
     { "name": "user", "type": "string", "doc": "User name" },
     { "name": "method", "type": "string", "doc": "HTTP method used" },
     { "name": "resource", "type": "string", "doc": "Requested resource" },
-    { "name": "timestamp", "type": {"type": "string", "logicalType": "timestamp-millis"}, "doc": "Request timestamp" }
-//    { "name": "timestamp", "type": {"type": "long", "logicalType": "timestamp-millis"}, "doc": "Request timestamp" }//TODO
+    { "name": "timestamp", "type": {"type": "long", "logicalType": "timestamp-millis"}, "doc": "Request timestamp" }
   ]
 }
