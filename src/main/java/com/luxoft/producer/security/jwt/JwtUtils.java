@@ -1,5 +1,6 @@
 package com.luxoft.producer.security.jwt;
 
+import com.luxoft.producer.security.constants.RoleEnum;
 import com.luxoft.producer.security.constants.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -22,13 +23,13 @@ import java.util.Map;
 @Slf4j
 public class JwtUtils {
 	
-	private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
+	private static final long EXPIRE_DURATION = 1000 * 60 * 60 * 24 * 30; // 30 days
 	
 	public String generateAccessToken(String username) {
 		return Jwts.builder()
 				.setClaims(Map.of(
 						"username", username,
-						"authorities", "AuthorityTest"
+						"authorities", RoleEnum.ROLE.getRole()
 				))
 				.setSubject(username)
 				.setIssuer("CodeJava")

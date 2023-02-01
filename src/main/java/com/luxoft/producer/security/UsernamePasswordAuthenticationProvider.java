@@ -1,6 +1,7 @@
 package com.luxoft.producer.security;
 
 import com.luxoft.producer.model.User;
+import com.luxoft.producer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,13 +15,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
 public class UsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 
-//    @Autowired
-//    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -28,10 +30,11 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
-        String pwd = authentication.getCredentials().toString();
-        List<User> userList = List.of(new User("test", "test"));
-        if (userList.size() > 0 && passwordEncoder.matches(pwd, userList.get(0).getPassword())) {
-            return new UsernamePasswordAuthenticationToken(username, pwd, getGrantedAuthorities(userList.get(0).getAuthorities()));
+        String password = authentication.getCredentials().toString();
+        Optional<User> userOptional = userService.getUserAndRoles(username);
+
+        if (userOptional.isPresent() && passwordEncoder.matches(password, userOptional.get().getPassword())) {
+            return new UsernamePasswordAuthenticationToken(username, password, getGrantedAuthorities(userOptional.get().getUserRolesAsString()));
         }
 
         throw new BadCredentialsException("User could not be authenticated");

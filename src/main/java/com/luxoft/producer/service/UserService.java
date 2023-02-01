@@ -28,9 +28,17 @@ public class UserService implements UserServiceInterface {
         return userRepository.findById(id);
     }
 
+    public Optional<User> findUserByName(String name) {
+        return userRepository.findUserByName(name);
+    }
+
     @Override
     public void deleteUser(User user) {
         userRepository.delete(user);
+    }
+
+    public Optional<User> getUserAndRoles(String name) {
+        return userRepository.findUserAndRolesByName(name);
     }
 
 }

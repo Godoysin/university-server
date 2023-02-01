@@ -1,0 +1,4 @@
+DONE - Resolve track.avsc warning.
+Add roles.
+Proper CRUD with interfaces.
+Create new user with roles (use @Transaction).

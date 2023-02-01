@@ -27,7 +27,7 @@ public class LoginController {
             return jwtUtils.generateAccessToken(username);
         } catch (Exception e) {
             log.error("Error found during user login: {}", e.toString());
-            throw new BadCredentialsException("Invalid user credentials");
+            throw new BadCredentialsException("User could not be authenticated");
         }
     }
 

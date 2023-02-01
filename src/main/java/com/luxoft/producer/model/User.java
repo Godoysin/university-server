@@ -1,5 +1,6 @@
 package com.luxoft.producer.model;
 
+import com.luxoft.producer.security.constants.RoleEnum;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user")
@@ -19,6 +21,10 @@ public class User {
     private Long id;
     private String name;
     private String password;
+
+    @OneToMany
+    @JoinColumn(name = "user_id", nullable = false)
+    private Set<UserRole> userRoles;
 
 //    private boolean accountNonExpired;
 //    private boolean accountNonLocked;
@@ -51,7 +57,7 @@ public class User {
 
 //    @Override
     public Set<String> getAuthorities() {
-        return Set.of("AuthorityTest");
+        return Set.of(RoleEnum.ROLE.getRole());
 //        return List.of(new SimpleGrantedAuthority(getName()));
     }
 
@@ -81,7 +87,19 @@ public class User {
         this.name = name;
     }
 
-//    @Override
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public Set<String> getUserRolesAsString() {
+        return userRoles.stream().map(UserRole::getRoleName).collect(Collectors.toSet());
+    }
+
+    public void setRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    //    @Override
     public boolean isAccountNonExpired() {
         return false;
     }

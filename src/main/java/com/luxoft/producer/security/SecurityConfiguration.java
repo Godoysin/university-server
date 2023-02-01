@@ -1,6 +1,7 @@
 package com.luxoft.producer.security;
 
 import com.luxoft.producer.controller.filter.JwtValidatorFilter;
+import com.luxoft.producer.security.constants.RoleEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,11 +20,12 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Slf4j
 public class SecurityConfiguration {
 
-    @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtValidatorFilter jwtValidatorFilter;
 
     @Autowired
-    JwtValidatorFilter jwtValidatorFilter;
+    public SecurityConfiguration(JwtValidatorFilter jwtValidatorFilter) {
+        this.jwtValidatorFilter = jwtValidatorFilter;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -55,7 +57,9 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .addFilterBefore(jwtValidatorFilter, BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                    .requestMatchers("/university/teachers/teacher-list", "/university/teachers/contact-request").authenticated()
+//                    .requestMatchers("/university/teachers/teacher-list", "/university/teachers/contact-request").authenticated()
+                    .requestMatchers("/university/teachers/teacher-list").authenticated()
+                    .requestMatchers("/university/teachers/contact-request").hasAuthority(RoleEnum.ROLE.getRole())
                     .requestMatchers("/university/login", "/university/careers/career-list").permitAll().and()
 //                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .formLogin().and()
