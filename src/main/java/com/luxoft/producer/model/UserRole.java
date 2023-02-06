@@ -1,42 +1,30 @@
 package com.luxoft.producer.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user_role")
 public class UserRole {
 
-    @Id
-    @Column(name = "user_id")
-    private Long userId;
-
-    @Id
-    @Column(name = "role_name")
-    private String roleName;
+    @EmbeddedId
+    @AttributeOverrides({
+            @AttributeOverride( name = "userId", column = @Column(name = "user_id")),
+            @AttributeOverride( name = "roleName", column = @Column(name = "role_name")),
+    })
+    private UserRolePK userRolePK;
 
     public UserRole() {}
 
     public UserRole(Long userId, String roleName) {
-        setUserId(userId);
-        setRoleName(roleName);
+        setUserRolePK(new UserRolePK(userId, roleName));
     }
 
-    public Long getUserId() {
-        return userId;
+    public UserRolePK getUserRolePK() {
+        return userRolePK;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserRolePK(UserRolePK userRolePK) {
+        this.userRolePK = userRolePK;
     }
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
 }

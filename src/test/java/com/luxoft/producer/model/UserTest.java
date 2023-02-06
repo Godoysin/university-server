@@ -9,10 +9,10 @@ public class UserTest {
 
     @Test
     public void createUserTest() {
-        String name = "test";
-        String password = "test";
+        String name = "testName";
+        String password = "testPassword";
 
-        User user = new User(name, name);
+        User user = new User(name, password);
 
         assertNull(user.getId());
         assertEquals(name, user.getName());
@@ -22,10 +22,10 @@ public class UserTest {
     @Test
     public void createCompleteUserTest() {
         Long id = 1L;
-        String name = "test";
-        String password = "test";
+        String name = "testName";
+        String password = "testPassword";
 
-        User user = new User(id, name, name);
+        User user = new User(id, name, password);
 
         assertEquals(id, user.getId());
         assertEquals(name, user.getName());

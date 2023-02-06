@@ -28,7 +28,7 @@ public class UserServiceTest {
     private User user;
 
     @BeforeEach
-    public void createUser() {
+    public void init() {
         Long id = 1L;
         String name = "name";
         String password = "password";

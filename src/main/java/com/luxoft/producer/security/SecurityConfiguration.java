@@ -22,9 +22,13 @@ public class SecurityConfiguration {
 
     private final JwtValidatorFilter jwtValidatorFilter;
 
+    private final RequestExceptionHandler requestExceptionHandler;
+
+
     @Autowired
-    public SecurityConfiguration(JwtValidatorFilter jwtValidatorFilter) {
+    public SecurityConfiguration(JwtValidatorFilter jwtValidatorFilter, RequestExceptionHandler requestExceptionHandler) {
         this.jwtValidatorFilter = jwtValidatorFilter;
+        this.requestExceptionHandler = requestExceptionHandler;
     }
 
     @Bean
@@ -60,9 +64,10 @@ public class SecurityConfiguration {
 //                    .requestMatchers("/university/teachers/teacher-list", "/university/teachers/contact-request").authenticated()
                     .requestMatchers("/university/teachers/teacher-list").authenticated()
                     .requestMatchers("/university/teachers/contact-request").hasAuthority(RoleEnum.ROLE.getRole())
-                    .requestMatchers("/university/login", "/university/careers/career-list").permitAll().and()
-//                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .formLogin().and()
+                    .requestMatchers("/university/login", "/university/careers/career-list").permitAll()
+                    .requestMatchers("/university/users/new-user").authenticated()
+                    .and()
+                .exceptionHandling().authenticationEntryPoint(requestExceptionHandler).and()
                 .httpBasic()
                 ;
         return httpSecurity.build();

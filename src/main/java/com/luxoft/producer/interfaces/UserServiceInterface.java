@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface UserServiceInterface {
 
-    public void createUser(User user);
-    public Optional<User> readUser(Long id);
-    public void deleteUser(User user);
+    void createUser(User user);
+    Optional<User> readUser(Long id);
+    void deleteUser(User user);
 }

@@ -1,6 +1,6 @@
 package com.luxoft.producer.security;
 
-import com.luxoft.producer.model.User;
+import com.luxoft.producer.model.UserWithRoles;
 import com.luxoft.producer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -21,32 +21,29 @@ import java.util.Set;
 @Component
 public class UsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public UsernamePasswordAuthenticationProvider(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        Optional<User> userOptional = userService.getUserAndRoles(username);
+        Optional<UserWithRoles> userWithRolesOptional = userService.getUserAndRoles(username);
 
-        if (userOptional.isPresent() && passwordEncoder.matches(password, userOptional.get().getPassword())) {
-            return new UsernamePasswordAuthenticationToken(username, password, getGrantedAuthorities(userOptional.get().getUserRolesAsString()));
+        if (userWithRolesOptional.isPresent() && passwordEncoder.matches(password, userWithRolesOptional.get().getPassword())) {
+            return new UsernamePasswordAuthenticationToken(username, password, getGrantedAuthorities(Set.of("testRole")));
         }
 
         throw new BadCredentialsException("User could not be authenticated");
     }
 
-//    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities) {
-//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-//        for (Authority authority : authorities) {
-//            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getName()));
-//        }
-//        return grantedAuthorities;
-//    }
     private List<GrantedAuthority> getGrantedAuthorities(Set<String> authorities) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for (String authority : authorities) {

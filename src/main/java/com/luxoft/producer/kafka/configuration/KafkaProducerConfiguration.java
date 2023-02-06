@@ -1,6 +1,5 @@
 package com.luxoft.producer.kafka.configuration;
 
-import com.luxoft.messages.avro.TrackAvro;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.VoidSerializer;

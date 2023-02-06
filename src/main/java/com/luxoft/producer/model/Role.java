@@ -3,12 +3,14 @@ package com.luxoft.producer.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "role")
 public class Role {
 
     @Id
+    @NotBlank
     private String name;
 
     public Role() {}

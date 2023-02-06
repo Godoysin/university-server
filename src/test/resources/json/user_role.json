@@ -1,0 +1,12 @@
+{
+  "user": {
+    "id": "userIdReplacement",
+    "name": "userNameReplacement",
+    "password": "userPasswordReplacement"
+  },
+  "roleSet": [
+    {
+      "name": "roleSetNameReplacement"
+    }
+  ]
+}

@@ -2,6 +2,7 @@ package com.luxoft.producer.service;
 
 import com.luxoft.producer.interfaces.UserServiceInterface;
 import com.luxoft.producer.model.User;
+import com.luxoft.producer.model.UserWithRoles;
 import com.luxoft.producer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class UserService implements UserServiceInterface {
         userRepository.delete(user);
     }
 
-    public Optional<User> getUserAndRoles(String name) {
+    public Optional<UserWithRoles> getUserAndRoles(String name) {
         return userRepository.findUserAndRolesByName(name);
     }
 

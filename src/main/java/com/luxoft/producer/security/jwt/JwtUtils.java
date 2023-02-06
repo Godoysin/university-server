@@ -23,7 +23,7 @@ import java.util.Map;
 @Slf4j
 public class JwtUtils {
 	
-	private static final long EXPIRE_DURATION = 1000 * 60 * 60 * 24 * 30; // 30 days
+	private static final long EXPIRE_DURATION = 1000L * 60L * 60L * 24L * 30L; // 30 days
 	
 	public String generateAccessToken(String username) {
 		return Jwts.builder()
@@ -32,10 +32,9 @@ public class JwtUtils {
 						"authorities", RoleEnum.ROLE.getRole()
 				))
 				.setSubject(username)
-				.setIssuer("CodeJava")
+				.setIssuer("Luxoft")
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
-//				.signWith(SignatureAlgorithm.HS512, SECRET_KEY)
 				.signWith(Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8)))
 				.compact();
 	}

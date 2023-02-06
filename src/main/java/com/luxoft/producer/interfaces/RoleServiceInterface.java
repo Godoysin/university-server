@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface RoleServiceInterface {
 
-    public void createRole(Role role);
-    public Optional<Role> readRole(String id);
-    public void deleteRole(Role role);
+    void createRole(Role role);
+    Optional<Role> readRole(String id);
+    void deleteRole(Role role);
 }
