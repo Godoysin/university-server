@@ -1,7 +1,7 @@
 package com.luxoft.producer.service;
 
-import com.luxoft.producer.model.Role;
-import com.luxoft.producer.model.User;
+import com.luxoft.producer.db.model.Role;
+import com.luxoft.producer.db.model.User;
 import jakarta.ws.rs.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

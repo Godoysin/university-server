@@ -1,4 +1,4 @@
-package com.luxoft.producer.model;
+package com.luxoft.producer.db.model;
 
 import com.luxoft.producer.security.constants.RoleEnum;
 import jakarta.persistence.*;

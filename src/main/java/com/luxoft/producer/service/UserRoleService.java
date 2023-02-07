@@ -1,10 +1,10 @@
 package com.luxoft.producer.service;
 
-import com.luxoft.producer.interfaces.UserRoleServiceInterface;
-import com.luxoft.producer.model.Role;
-import com.luxoft.producer.model.User;
-import com.luxoft.producer.model.UserRole;
-import com.luxoft.producer.repository.UserRoleRepository;
+import com.luxoft.producer.db.interfaces.UserRoleServiceInterface;
+import com.luxoft.producer.db.model.Role;
+import com.luxoft.producer.db.model.User;
+import com.luxoft.producer.db.model.UserRole;
+import com.luxoft.producer.db.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

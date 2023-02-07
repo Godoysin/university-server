@@ -1,6 +1,6 @@
-package com.luxoft.producer.interfaces;
+package com.luxoft.producer.db.interfaces;
 
-import com.luxoft.producer.model.User;
+import com.luxoft.producer.db.model.User;
 
 import java.util.Optional;
 

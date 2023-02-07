@@ -1,7 +1,7 @@
 package com.luxoft.producer.service;
 
-import com.luxoft.producer.model.Role;
-import com.luxoft.producer.repository.RoleRepository;
+import com.luxoft.producer.db.model.Role;
+import com.luxoft.producer.db.repository.RoleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

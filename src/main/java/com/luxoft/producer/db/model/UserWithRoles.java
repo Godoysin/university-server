@@ -1,4 +1,4 @@
-package com.luxoft.producer.model;
+package com.luxoft.producer.db.model;
 
 import jakarta.persistence.*;
 
@@ -29,7 +29,6 @@ public class UserWithRoles extends User {
     }
 
     public Set<String> getUserRolesAsString() {
-
         return userRoles.stream().map(e -> e.getUserRolePK().getRoleName()).collect(Collectors.toSet());
     }
 

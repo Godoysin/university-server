@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,9 @@ import java.util.Map;
 public class JwtUtils {
 	
 	private static final long EXPIRE_DURATION = 1000L * 60L * 60L * 24L * 30L; // 30 days
+
+	@Value("${security.jwt.key}")
+	private String JWT_KEY;
 	
 	public String generateAccessToken(String username) {
 		return Jwts.builder()
@@ -35,7 +39,7 @@ public class JwtUtils {
 				.setIssuer("Luxoft")
 				.setIssuedAt(new Date())
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
-				.signWith(Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8)))
+				.signWith(Keys.hmacShaKeyFor(JWT_KEY.getBytes(StandardCharsets.UTF_8)))
 				.compact();
 	}
 	
@@ -44,7 +48,7 @@ public class JwtUtils {
 		if (jwt != null) {
 			try {
 				SecretKey key = Keys.hmacShaKeyFor(
-						SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
+						JWT_KEY.getBytes(StandardCharsets.UTF_8));
 
 				Claims claims = Jwts.parserBuilder()
 						.setSigningKey(key)

@@ -1,6 +1,6 @@
-package com.luxoft.producer.repository;
+package com.luxoft.producer.db.repository;
 
-import com.luxoft.producer.model.Teacher;
+import com.luxoft.producer.db.model.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

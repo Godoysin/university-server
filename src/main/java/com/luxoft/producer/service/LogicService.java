@@ -2,10 +2,10 @@ package com.luxoft.producer.service;
 
 import com.google.gson.Gson;
 import com.luxoft.producer.kafka.TopicWriter;
-import com.luxoft.producer.model.Career;
-import com.luxoft.producer.model.Teacher;
-import com.luxoft.producer.repository.CareerRepository;
-import com.luxoft.producer.repository.TeacherRepository;
+import com.luxoft.producer.db.model.Career;
+import com.luxoft.producer.db.model.Teacher;
+import com.luxoft.producer.db.repository.CareerRepository;
+import com.luxoft.producer.db.repository.TeacherRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

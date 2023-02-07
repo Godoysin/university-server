@@ -1,9 +1,9 @@
 package com.luxoft.producer.service;
 
-import com.luxoft.producer.interfaces.UserServiceInterface;
-import com.luxoft.producer.model.User;
-import com.luxoft.producer.model.UserWithRoles;
-import com.luxoft.producer.repository.UserRepository;
+import com.luxoft.producer.db.interfaces.UserServiceInterface;
+import com.luxoft.producer.db.model.User;
+import com.luxoft.producer.db.model.UserWithRoles;
+import com.luxoft.producer.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

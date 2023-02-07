@@ -1,4 +1,4 @@
-package com.luxoft.producer.model;
+package com.luxoft.producer.db.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

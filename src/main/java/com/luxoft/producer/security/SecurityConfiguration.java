@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -23,7 +24,6 @@ public class SecurityConfiguration {
     private final JwtValidatorFilter jwtValidatorFilter;
 
     private final RequestExceptionHandler requestExceptionHandler;
-
 
     @Autowired
     public SecurityConfiguration(JwtValidatorFilter jwtValidatorFilter, RequestExceptionHandler requestExceptionHandler) {
@@ -38,21 +38,19 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        //TODO change this
-//        return new BCryptPasswordEncoder();
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence rawPassword) {
-                return rawPassword.toString();
-            }
-
+        return new BCryptPasswordEncoder() {
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return rawPassword.toString().equals(encodedPassword);
+                if (rawPassword == null) {
+                    throw new IllegalArgumentException("rawPassword cannot be null");
+                }
+                if (encodedPassword == null || encodedPassword.length() == 0) {
+                    return false;
+                }
+                return (rawPassword.toString().compareTo(encodedPassword.toString()) == 0);
             }
         };
     }
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -72,6 +70,5 @@ public class SecurityConfiguration {
                 ;
         return httpSecurity.build();
     }
-
 
 }

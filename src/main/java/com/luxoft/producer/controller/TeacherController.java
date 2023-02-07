@@ -1,6 +1,6 @@
 package com.luxoft.producer.controller;
 
-import com.luxoft.producer.model.Teacher;
+import com.luxoft.producer.db.model.Teacher;
 import com.luxoft.producer.service.LogicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;

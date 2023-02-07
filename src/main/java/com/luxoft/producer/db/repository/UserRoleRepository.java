@@ -1,7 +1,7 @@
-package com.luxoft.producer.repository;
+package com.luxoft.producer.db.repository;
 
-import com.luxoft.producer.model.UserRole;
-import com.luxoft.producer.model.UserRolePK;
+import com.luxoft.producer.db.model.UserRole;
+import com.luxoft.producer.db.model.UserRolePK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

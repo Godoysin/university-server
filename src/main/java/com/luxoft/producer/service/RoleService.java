@@ -1,8 +1,8 @@
 package com.luxoft.producer.service;
 
-import com.luxoft.producer.interfaces.RoleServiceInterface;
-import com.luxoft.producer.model.Role;
-import com.luxoft.producer.repository.RoleRepository;
+import com.luxoft.producer.db.interfaces.RoleServiceInterface;
+import com.luxoft.producer.db.model.Role;
+import com.luxoft.producer.db.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

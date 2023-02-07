@@ -1,6 +1,6 @@
 package com.luxoft.producer.security;
 
-import com.luxoft.producer.model.UserWithRoles;
+import com.luxoft.producer.db.model.UserWithRoles;
 import com.luxoft.producer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -38,7 +38,7 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
         Optional<UserWithRoles> userWithRolesOptional = userService.getUserAndRoles(username);
 
         if (userWithRolesOptional.isPresent() && passwordEncoder.matches(password, userWithRolesOptional.get().getPassword())) {
-            return new UsernamePasswordAuthenticationToken(username, password, getGrantedAuthorities(Set.of("testRole")));
+            return new UsernamePasswordAuthenticationToken(username, password, getGrantedAuthorities(userWithRolesOptional.get().getUserRolesAsString()));
         }
 
         throw new BadCredentialsException("User could not be authenticated");

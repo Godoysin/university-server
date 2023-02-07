@@ -1,7 +1,7 @@
 package com.luxoft.producer.controller.model;
 
-import com.luxoft.producer.model.Role;
-import com.luxoft.producer.model.User;
+import com.luxoft.producer.db.model.Role;
+import com.luxoft.producer.db.model.User;
 
 import java.util.Set;
 
