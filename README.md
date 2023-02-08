@@ -15,8 +15,8 @@ services:
     ports:
       - "2181:2181"
     environment:
-        ZOO_MY_ID: 1
-        ZOO_PORT: 2181
+      ZOO_MY_ID: 1
+      ZOO_PORT: 2181
 
   kafka:
     image: confluentinc/cp-kafka:7.0.1
@@ -30,7 +30,7 @@ services:
       KAFKA_kafka_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:19092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:19092,PLAINTEXT_HOST://${HOST_IP}:9092
       CONFLUENT_METRICS_ENABLE: 'false'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
@@ -115,13 +115,22 @@ services:
       - '3306:3306'
     volumes:
       - mysqlvolume:/var/lib/mysql
-      - C:\Users\DGodoyChiclana\OneDrive - DXC Production\Desktop\practice\init.sql:/docker-entrypoint-initdb.d/init.sql
+      - <init.sql_PATH>\init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   mysqlvolume:
     driver: local
 ```
+It is also used a .env file.
+```yaml
+HOST_IP=<YOUR_IP_ADDRESS>
+```
 
+To create the image from the Java project and execute it, it can be used:
+```shell
+docker image build -t university_producer_app:0.1 .
+docker container run --rm --add-host=host.docker.internal:host-gateway --network practice_default -p 8990:8990 --name university_producer -e "SPRING_PROFILES_ACTIVE=dev" -e JAVA_TOOL_OPTIONS="-DMYSQL_HOST=<YOUR_IP_ADDRESS> -DLOCALHOST_IP=<YOUR_IP_ADDRESS>" university_producer_app:0.1
+```
 I also use this SQL script to initialize DB tables and content: **init.sql**
 ```sql
 CREATE DATABASE university;
@@ -141,4 +150,12 @@ CREATE TABLE career_subject (career_name VARCHAR(128) NOT NULL, subject_name VAR
 INSERT INTO career_subject (career_name, subject_name) VALUES ('Telematics engineering', 'Introductory mathematics'), ('Electrical engineering', 'Introductory mathematics'), ('Telematics engineering', 'Internet protocols'), ('Electrical engineering', 'Electrical theory');
 CREATE TABLE subject_teacher (subject_name VARCHAR(128) NOT NULL, teacher_name VARCHAR(128) NOT NULL, PRIMARY KEY (subject_name, teacher_name), CONSTRAINT subject_teacher_teacher_name_teacher_fk FOREIGN KEY (teacher_name) REFERENCES teacher(teacher_name), CONSTRAINT subject_teacher_subject_name_subject_fk FOREIGN KEY (subject_name) REFERENCES subject(subject_name));
 INSERT INTO subject_teacher (subject_name, teacher_name) VALUES ('Introductory mathematics', 'Ann'), ('Internet protocols', 'Bob'), ('Electrical theory', 'Charles');
+CREATE TABLE user (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, name VARCHAR(128) NOT NULL, password VARCHAR(128) NOT NULL);
+INSERT INTO user (id, name, password) VALUES (1, 'test', 'test');
+CREATE TABLE role (name VARCHAR(128) NOT NULL PRIMARY KEY);
+INSERT INTO role (name) VALUES ('testRole');
+CREATE TABLE user_role (user_id INT UNSIGNED, role_name VARCHAR(128), PRIMARY KEY (user_id, role_name), CONSTRAINT user_role_user_id_user_fk FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE, CONSTRAINT user_role_role_name_role_fk FOREIGN KEY (role_name) REFERENCES role(name) ON DELETE CASCADE ON UPDATE CASCADE);
+INSERT INTO user_role (user_id, role_name) VALUES (1, 'testRole');
+CREATE TABLE configuration (id int NOT NULL AUTO_INCREMENT PRIMARY KEY, property_name varchar(200) NOT NULL, property_value varchar(200) NOT NULL, description varchar(200), environment varchar(4) DEFAULT 'dev', date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+INSERT INTO configuration (id, property_name, property_value, description, environment) VALUES (1, 'security.jwt.key', 'jxgEQeXHuPq8VdbyYFNkANdudQ53YUn4', 'JWT key', 'dev'), (2, 'security.hash.algorithm', 'SHA-256', 'Hash used algorithm', 'dev'), (3, 'security.cipher.key', 'Adf@=m29hRqqQtkW9#_B', 'Cipher key', 'dev');
 ```
