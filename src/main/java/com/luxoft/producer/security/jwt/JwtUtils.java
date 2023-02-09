@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,22 +24,26 @@ import java.util.Map;
 @Component
 @Slf4j
 public class JwtUtils {
-	
-	private static final long EXPIRE_DURATION = 1000L * 60L * 60L * 24L * 30L; // 30 days
 
 	@Value("${security.jwt.key}")
 	private String JWT_KEY;
-	
+
+	private final JwtDateConfigurator jwtDateConfigurator;
+
+	@Autowired
+	public JwtUtils(JwtDateConfigurator jwtDateConfigurator) {
+		this.jwtDateConfigurator = jwtDateConfigurator;
+	}
+
 	public String generateAccessToken(String username) {
 		return Jwts.builder()
 				.setClaims(Map.of(
-						"username", username,
-						"authorities", RoleEnum.ROLE.getRole()
+						SecurityConstants.JWT_PAYLOAD_AUTHORITIES, RoleEnum.ROLE.getRole()
 				))
 				.setSubject(username)
-				.setIssuer("Luxoft")
-				.setIssuedAt(new Date())
-				.setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
+				.setIssuer(SecurityConstants.JWT_ISSUER)
+				.setIssuedAt(jwtDateConfigurator.generateDate())
+				.setExpiration(new Date(System.currentTimeMillis() + jwtDateConfigurator.getExpireDuration()))
 				.signWith(Keys.hmacShaKeyFor(JWT_KEY.getBytes(StandardCharsets.UTF_8)))
 				.compact();
 	}
@@ -55,12 +60,13 @@ public class JwtUtils {
 						.build()
 						.parseClaimsJws(jwt)
 						.getBody();
-				String username = String.valueOf(claims.get("username"));
-				String authorities = (String) claims.get("authorities");
+				String username = String.valueOf(claims.get(SecurityConstants.JWT_PAYLOAD_USERNAME));
+				String authorities = String.valueOf(claims.get(SecurityConstants.JWT_PAYLOAD_AUTHORITIES));
 				Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,
 						AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			} catch (Exception e) {
+				log.error(e.toString());
 				throw new BadCredentialsException("Invalid Token received!");
 			}
 		}

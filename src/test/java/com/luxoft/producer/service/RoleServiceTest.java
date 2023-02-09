@@ -35,36 +35,49 @@ public class RoleServiceTest {
     }
 
     @Test
-    public void createRoleTest() {
+    public void shouldVerifyCreateARole() {
+        // given
+        // when
         roleServiceMock.createRole(role);
+
+        // then
         verify(roleRepositoryMock).save(role);
     }
 
     @Test
-    public void readFoundRoleTest() {
+    public void shouldVerifyGettingARole() {
+        // given
         when(roleRepositoryMock.findById(role.getName())).thenReturn(Optional.of(role));
 
+        // when
         Optional<Role> optionalRole = roleServiceMock.readRole(role.getName());
 
+        // then
         verify(roleRepositoryMock).findById(role.getName());
         assertTrue(optionalRole.isPresent());
         assertEquals(role.getName(), optionalRole.get().getName());
     }
 
     @Test
-    public void readNotFoundRoleTest() {
+    public void shouldVerifyGettingAnEmptyRoleOptional() {
+        // given
         when(roleRepositoryMock.findById(role.getName())).thenReturn(Optional.empty());
 
+        // when
         Optional<Role> optionalUser = roleServiceMock.readRole(role.getName());
 
+        // then
         verify(roleRepositoryMock).findById(role.getName());
         assertTrue(optionalUser.isEmpty());
     }
 
     @Test
-    public void deleteRoleTest() {
+    public void shouldPassThroughDeleteInRoleRepository() {
+        // given
+        // when
         roleServiceMock.deleteRole(role);
 
+        // then
         verify(roleRepositoryMock).delete(role);
     }
 }
