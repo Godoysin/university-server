@@ -66,7 +66,7 @@ public class JwtUtils {
 						AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			} catch (Exception e) {
-				log.error(e.toString());
+				log.error("{}", e.toString());
 				throw new BadCredentialsException("Invalid Token received!");
 			}
 		}

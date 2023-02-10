@@ -11,14 +11,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class TopicWriter {
 
+    private final KafkaTemplate<Void, Object> kafkaTemplate;
+
+    protected static final String CONTACT_TOPIC = "contact";
+    protected static final String ERROR_TOPIC = "error";
+    protected static final String TRACK_TOPIC = "track";
+
     @Autowired
-    KafkaTemplate<Void, Object> kafkaTemplate;
-
-    private static final String CONTACT_TOPIC = "contact";
-    private static final String ERROR_TOPIC = "error";
-    private static final String TRACK_TOPIC = "track";
-
-    public TopicWriter() {
+    public TopicWriter(KafkaTemplate<Void, Object> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     public void trackTopicSender(String httpMethod, String resource) {
@@ -27,16 +28,16 @@ public class TopicWriter {
         sendToTrackTopic(trackAvro);
     }
 
-    public void sendToContactTopic(String string) {
-        kafkaTemplate.send(CONTACT_TOPIC, string);
+    public void sendToContactTopic(String stringMessage) {
+        kafkaTemplate.send(CONTACT_TOPIC, stringMessage);
     }
 
-    public void sendToErrorTopic(String string) {
-        kafkaTemplate.send(ERROR_TOPIC, string);
+    public void sendToErrorTopic(String stringMessage) {
+        kafkaTemplate.send(ERROR_TOPIC, stringMessage);
     }
 
-    private void sendToTrackTopic(TrackAvro trackAvro) {
-        kafkaTemplate.send(TRACK_TOPIC, trackAvro);
+    private void sendToTrackTopic(TrackAvro trackAvroMessage) {
+        kafkaTemplate.send(TRACK_TOPIC, trackAvroMessage);
     }
 
 }
