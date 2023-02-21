@@ -2,6 +2,8 @@ package com.luxoft.producer.security.constants;
 
 public class SecurityConstants {
 
+    private SecurityConstants() {}
+
     public static final String JWT_HEADER = "Authorization";
 
     public static final String JWT_ISSUER = "Luxoft";

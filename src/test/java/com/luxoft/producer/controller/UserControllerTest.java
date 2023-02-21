@@ -16,13 +16,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class UserControllerTest {
+class UserControllerTest {
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -30,7 +29,7 @@ public class UserControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void createUserNoTokenTest() throws Exception {
+    void createUserNoTokenTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/university/users/new-user")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -39,7 +38,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void createUserNotNullIdTest() throws Exception {
+    void createUserNotNullIdTest() throws Exception {
         String content = getResourceFromTestResource("json/user_role.json");
 
         JSONObject jsonObject = new JSONObject(content);

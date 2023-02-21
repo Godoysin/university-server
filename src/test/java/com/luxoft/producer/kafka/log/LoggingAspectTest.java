@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class LoggingAspectTest {
+class LoggingAspectTest {
 
     @InjectMocks
     private LoggingAspect loggingAspect;
@@ -22,7 +22,7 @@ public class LoggingAspectTest {
     @Mock
     private JoinPoint joinPointMock;
 
-    protected static final Stream<Arguments> testArguments() {
+    protected static Stream<Arguments> testArguments() {
         return Stream.of(
                 Arguments.of((Object) new Object[0]),
                 Arguments.of((Object) new Object[] {"argument 1"}),
@@ -37,7 +37,7 @@ public class LoggingAspectTest {
 
     @ParameterizedTest
     @MethodSource("testArguments")
-    public void shouldDisplayAspectLog(Object[] objects) {
+    void shouldDisplayAspectLog(Object[] objects) {
         // given
         String methodName = "chosenMethod";
 

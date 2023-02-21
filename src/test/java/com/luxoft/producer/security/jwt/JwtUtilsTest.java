@@ -28,7 +28,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class JwtUtilsTest {
+class JwtUtilsTest {
 
     @InjectMocks
     private JwtUtils jwtUtilsMock;
@@ -48,14 +48,8 @@ public class JwtUtilsTest {
         ReflectionTestUtils.setField(jwtUtilsMock, "JWT_KEY", JWT_KEY);
     }
 
-    // given
-
-    // when
-
-    // then
-
     @Test
-    public void shouldGenerateJwtAndVerifyFields() {
+    void shouldGenerateJwtAndVerifyFields() {
         // given
         when(jwtDateConfiguratorMock.generateDate()).thenReturn(new Date());
         when(jwtDateConfiguratorMock.getExpireDuration()).thenReturn((new JwtDateConfigurator()).getExpireDuration());
@@ -96,7 +90,7 @@ public class JwtUtilsTest {
     }
 
     @Test
-    public void shouldNotRegisterUserInSecurityContextAndNotGenerateException() {
+    void shouldNotRegisterUserInSecurityContextAndNotGenerateException() {
         // given
         when(mockHttpServletRequest.getHeader(SecurityConstants.JWT_HEADER)).thenReturn(null);
 
@@ -111,7 +105,7 @@ public class JwtUtilsTest {
     }
 
     @Test
-    public void shouldRegisterUserInSecurityContextAndVerifyFields() {
+    void shouldRegisterUserInSecurityContextAndVerifyFields() {
         // given
         when(jwtDateConfiguratorMock.generateDate()).thenReturn(new Date());
         when(jwtDateConfiguratorMock.getExpireDuration()).thenReturn((new JwtDateConfigurator()).getExpireDuration());
@@ -138,7 +132,7 @@ public class JwtUtilsTest {
     }
 
     @Test
-    public void shouldGenerateAndExpiredTokenAndGenerateBadCredentialsExceptionWhenValidatingIt() {
+    void shouldGenerateAndExpiredTokenAndGenerateBadCredentialsExceptionWhenValidatingIt() {
         // given
         when(jwtDateConfiguratorMock.generateDate()).thenReturn(new Date());
 

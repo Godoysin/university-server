@@ -47,7 +47,7 @@ public class SecurityConfiguration {
                 if (encodedPassword == null || encodedPassword.length() == 0) {
                     return false;
                 }
-                return (rawPassword.toString().compareTo(encodedPassword.toString()) == 0);
+                return (rawPassword.toString().compareTo(encodedPassword) == 0);
             }
         };
     }

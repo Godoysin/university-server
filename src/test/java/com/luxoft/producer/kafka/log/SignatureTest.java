@@ -4,7 +4,7 @@ import org.aspectj.lang.Signature;
 
 public class SignatureTest implements Signature {
 
-    private String name;
+    private final String name;
 
     public SignatureTest(String name) {
         this.name = name;

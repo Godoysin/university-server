@@ -1,7 +1,6 @@
 package com.luxoft.producer.configuration;
 
 import com.luxoft.producer.db.model.Configuration;
-import io.micrometer.common.util.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.env.OriginTrackedMapPropertySource;
@@ -31,7 +30,7 @@ public class DBPropertiesLoader implements EnvironmentPostProcessor {
 
         String activeEnvironment = environment.getProperty("spring.profiles.active");
 
-        if (StringUtils.isBlank(activeEnvironment))
+        if (activeEnvironment == null || activeEnvironment.isBlank())
             throw new RuntimeException("Active profile not set");
 
         // Build manually datasource to ServiceConfig
@@ -55,15 +54,16 @@ public class DBPropertiesLoader implements EnvironmentPostProcessor {
             // Create a custom property source with the highest precedence and add it to Spring Environment
             environment.getPropertySources().addFirst(new OriginTrackedMapPropertySource(PROPERTY_SOURCE_NAME, propertySource));
 
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     private PreparedStatement createPreparedStatement(Connection con, String environment) throws SQLException {
-        PreparedStatement ps = con.prepareStatement(QUERY);
-        ps.setString(1, environment);
-        return ps;
+        try (PreparedStatement ps = con.prepareStatement(QUERY)) {
+            ps.setString(1, environment);
+            return ps;
+        }
     }
 
 }

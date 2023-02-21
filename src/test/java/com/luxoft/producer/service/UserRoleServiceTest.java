@@ -18,7 +18,7 @@ import java.util.Set;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class UserRoleServiceTest {
+class UserRoleServiceTest {
 
     @Mock
     private UserRoleRepository userRoleRepository;
@@ -38,13 +38,13 @@ public class UserRoleServiceTest {
     }
 
     @Test
-    public void assignNewRolesToUserTest() {
+    void assignNewRolesToUserTest() {
         userRoleServiceMock.assignNewRolesToUser(user, roleSet);
         verify(userRoleRepository).saveAll(userRoleList);
     }
 
     @Test
-    public void deleteRolesFromUserTest() {
+    void deleteRolesFromUserTest() {
         userRoleServiceMock.deleteRolesFromUser(user, roleSet);
         verify(userRoleRepository).deleteAll(userRoleList);
     }

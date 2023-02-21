@@ -7,10 +7,10 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UserWithRolesTest {
+class UserWithRolesTest {
 
     @Test
-    public void setOfRolesAsStringTest() {
+    void setOfRolesAsStringTest() {
         Long id = 1L;
         Set<String> stringSet = Set.of("role1", "role2");
         Set<UserRole> userRoleSet = new HashSet<>();

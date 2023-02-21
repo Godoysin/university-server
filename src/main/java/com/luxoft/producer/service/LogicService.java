@@ -31,7 +31,7 @@ public class LogicService {
 
     public List<String> getAllCareers() {
         log.info("Career list requested");
-        return careerRepository.findAll().stream().map(Career::getCareerName).collect(Collectors.toList());
+        return careerRepository.findAll().stream().map(Career::getCareerName).toList();
     }
 
     public List<Teacher> getTeachersByCareer(String careerName) {

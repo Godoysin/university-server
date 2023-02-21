@@ -11,13 +11,13 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class JwtDateConfiguratorTest {
+class JwtDateConfiguratorTest {
 
     @InjectMocks
     private JwtDateConfigurator jwtDateConfiguratorMock;
 
     @Test
-    public void shouldReturnThirtyDaysInMilliseconds() {
+    void shouldReturnThirtyDaysInMilliseconds() {
         // given
         long thirtyDaysMillisecondsLong = 1000L * 60L * 60L * 24L * 30L;
 
@@ -29,7 +29,7 @@ public class JwtDateConfiguratorTest {
     }
 
     @Test
-    public void shouldReturnDateFromToday() {
+    void shouldReturnDateFromToday() {
         // given
         Date testDate = new Date();
 

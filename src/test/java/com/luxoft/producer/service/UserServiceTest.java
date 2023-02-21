@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTest {
+class UserServiceTest {
 
     @Mock
     private UserRepository userRepositoryMock;
@@ -37,13 +37,13 @@ public class UserServiceTest {
     }
 
     @Test
-    public void createUserTest() {
+    void createUserTest() {
         userServiceMock.createUser(user);
         verify(userRepositoryMock).save(user);
     }
 
     @Test
-    public void readFoundUserTest() {
+    void readFoundUserTest() {
         when(userRepositoryMock.findById(user.getId())).thenReturn(Optional.of(user));
 
         Optional<User> optionalUser = userServiceMock.readUser(user.getId());
@@ -56,7 +56,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void readNotFoundUserTest() {
+    void readNotFoundUserTest() {
         when(userRepositoryMock.findById(user.getId())).thenReturn(Optional.empty());
 
         Optional<User> optionalUser = userServiceMock.readUser(user.getId());
@@ -66,7 +66,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void deleteRoleTest() {
+    void deleteRoleTest() {
         userServiceMock.deleteUser(user);
 
         verify(userRepositoryMock).delete(user);

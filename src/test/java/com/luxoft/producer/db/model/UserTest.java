@@ -1,14 +1,28 @@
 package com.luxoft.producer.db.model;
 
+import com.luxoft.producer.service.ValidationService;
+import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import java.util.stream.Stream;
 
-public class UserTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+@ExtendWith(MockitoExtension.class)
+class UserTest {
+
+    @Spy
+    ValidationService validationService;
 
     @Test
-    public void createUserTest() {
+    void createUserTest() {
         String name = "testName";
         String password = "testPassword";
 
@@ -20,7 +34,7 @@ public class UserTest {
     }
 
     @Test
-    public void createCompleteUserTest() {
+    void createCompleteUserTest() {
         Long id = 1L;
         String name = "testName";
         String password = "testPassword";
@@ -33,12 +47,45 @@ public class UserTest {
     }
 
     @Test
-    public void createEmptyUserTest() {
+    void createEmptyUserTest() {
         User user = new User();
 
         assertNull(user.getId());
         assertNull(user.getName());
         assertNull(user.getPassword());
+    }
+
+    protected static Stream<Arguments> testArguments() {
+        return Stream.of(
+                Arguments.of(new User()),
+                Arguments.of(new User("", "")),
+                Arguments.of(new User("notBlank", "")),
+                Arguments.of(new User("", "notBlack"))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("testArguments")
+    void shouldThrowValidationException(User user) {
+        // given
+
+        // when
+        Executable executable = () -> user.validateInsert(validationService.getValidator());
+
+        // then
+        assertThrows(ValidationException.class, executable);
+    }
+
+    @Test
+    void shouldValidateUser() {
+        // given
+        User user = new User("user", "password");
+
+        // when
+        Executable executable = () -> user.validateInsert(validationService.getValidator());
+
+        // then
+        assertDoesNotThrow(executable);
     }
 
 }

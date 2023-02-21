@@ -26,7 +26,7 @@ import java.util.Map;
 public class JwtUtils {
 
 	@Value("${security.jwt.key}")
-	private String JWT_KEY;
+	private String jwtKey;
 
 	private final JwtDateConfigurator jwtDateConfigurator;
 
@@ -44,7 +44,7 @@ public class JwtUtils {
 				.setIssuer(SecurityConstants.JWT_ISSUER)
 				.setIssuedAt(jwtDateConfigurator.generateDate())
 				.setExpiration(new Date(System.currentTimeMillis() + jwtDateConfigurator.getExpireDuration()))
-				.signWith(Keys.hmacShaKeyFor(JWT_KEY.getBytes(StandardCharsets.UTF_8)))
+				.signWith(Keys.hmacShaKeyFor(jwtKey.getBytes(StandardCharsets.UTF_8)))
 				.compact();
 	}
 	
@@ -53,7 +53,7 @@ public class JwtUtils {
 		if (jwt != null) {
 			try {
 				SecretKey key = Keys.hmacShaKeyFor(
-						JWT_KEY.getBytes(StandardCharsets.UTF_8));
+						jwtKey.getBytes(StandardCharsets.UTF_8));
 
 				Claims claims = Jwts.parserBuilder()
 						.setSigningKey(key)

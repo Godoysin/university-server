@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RoleServiceTest {
+class RoleServiceTest {
 
     @Mock
     private RoleRepository roleRepositoryMock;
@@ -28,14 +28,14 @@ public class RoleServiceTest {
     private Role role;
 
     @BeforeEach
-    public void createRole() {
+    void createRole() {
         String name = "role";
 
         role = new Role(name);
     }
 
     @Test
-    public void shouldVerifyCreateARole() {
+    void shouldVerifyCreateARole() {
         // given
         // when
         roleServiceMock.createRole(role);
@@ -45,7 +45,7 @@ public class RoleServiceTest {
     }
 
     @Test
-    public void shouldVerifyGettingARole() {
+    void shouldVerifyGettingARole() {
         // given
         when(roleRepositoryMock.findById(role.getName())).thenReturn(Optional.of(role));
 
@@ -59,7 +59,7 @@ public class RoleServiceTest {
     }
 
     @Test
-    public void shouldVerifyGettingAnEmptyRoleOptional() {
+    void shouldVerifyGettingAnEmptyRoleOptional() {
         // given
         when(roleRepositoryMock.findById(role.getName())).thenReturn(Optional.empty());
 
@@ -72,7 +72,7 @@ public class RoleServiceTest {
     }
 
     @Test
-    public void shouldPassThroughDeleteInRoleRepository() {
+    void shouldPassThroughDeleteInRoleRepository() {
         // given
         // when
         roleServiceMock.deleteRole(role);

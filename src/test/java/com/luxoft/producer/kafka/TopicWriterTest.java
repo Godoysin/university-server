@@ -11,7 +11,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class TopicWriterTest {
+class TopicWriterTest {
 
     @InjectMocks
     private TopicWriter topicWriterMock;
@@ -22,7 +22,7 @@ public class TopicWriterTest {
     private static final String message = "message";
 
     @Test
-    public void shouldSendToContactTopicUsingKafkaTemplateSend() {
+    void shouldSendToContactTopicUsingKafkaTemplateSend() {
         // given
 
         // when
@@ -33,7 +33,7 @@ public class TopicWriterTest {
     }
 
     @Test
-    public void shouldSendToErrorTopicUsingKafkaTemplateSend() {
+    void shouldSendToErrorTopicUsingKafkaTemplateSend() {
         // given
 
         // when
@@ -44,7 +44,7 @@ public class TopicWriterTest {
     }
 
     @Test
-    public void shouldSendToTrackTopicUsingKafkaTemplateSend() {
+    void shouldSendToTrackTopicUsingKafkaTemplateSend() {
         // given
         String httpMethod = "GET";
         String resource = "/resource";

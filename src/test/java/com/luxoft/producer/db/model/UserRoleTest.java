@@ -23,7 +23,7 @@ public class UserRoleTest {
     }
 
     @Test
-    public void createUserRoleTest() {
+    void createUserRoleTest() {
         Long userId = 1L;
         String roleName = "userName";
 
@@ -37,7 +37,7 @@ public class UserRoleTest {
     }
 
     @Test
-    public void createEmptyUserRoleTest() {
+    void createEmptyUserRoleTest() {
         UserRole userRole = new UserRole();
 
         assertNull(userRole.getUserRolePK());
@@ -47,7 +47,7 @@ public class UserRoleTest {
     }
 
     @Test
-    public void createEmptyUserRoleWithPKTest() {
+    void createEmptyUserRoleWithPKTest() {
         UserRole userRole = new UserRole(null, null);
 
         assertNotNull(userRole.getUserRolePK());

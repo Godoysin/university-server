@@ -15,16 +15,22 @@ public class TransactionalManagerService {
 
     private final UserManagementService userManagementService;
 
+    private final ValidationService validationService;
+
     @Autowired
-    public TransactionalManagerService(UserManagementService userManagementService) {
+    public TransactionalManagerService(UserManagementService userManagementService, ValidationService validationService) {
         this.userManagementService = userManagementService;
+        this.validationService = validationService;
     }
 
     public void createUserWithRole(User user, Set<Role> roleSet) {
         try {
+            user.validateInsert(validationService.getValidator());
+            roleSet.stream().forEach(e -> e.validateInsert(validationService.getValidator()));
+
             userManagementService.createUserWithRole(user, roleSet);
         } catch (Exception e) {
-            log.error("Test: {}", e.toString());
+            log.error("Exception thrown: {}", e.toString());
             throw new BadRequestException();
         }
     }

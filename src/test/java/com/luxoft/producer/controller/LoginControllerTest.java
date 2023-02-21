@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class LoginControllerTest {
+class LoginControllerTest {
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -26,13 +26,13 @@ public class LoginControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void loginTest_ErrorPostWithNoParams() throws Exception {
+    void loginTest_ErrorPostWithNoParams() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/university/login"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void loginTest_ErrorPostWithBadCredentials() throws Exception {
+    void loginTest_ErrorPostWithBadCredentials() throws Exception {
         MockPart username = new MockPart("username", "error".getBytes());
         MockPart password = new MockPart("password", "error".getBytes());
 
@@ -43,7 +43,7 @@ public class LoginControllerTest {
     }
 
     @Test
-    public void loginTest_SuccessfulPost() throws Exception {
+    void loginTest_SuccessfulPost() throws Exception {
         MockPart username = new MockPart("username", "test".getBytes());
         MockPart password = new MockPart("password", "test".getBytes());
 
