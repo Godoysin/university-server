@@ -43,26 +43,22 @@ public class DBPropertiesLoader implements EnvironmentPostProcessor {
                 .build();
 
         try (Connection connection = ds.getConnection();
-                PreparedStatement preparedStatement = createPreparedStatement(connection, activeEnvironment);
-                ResultSet rs = preparedStatement.executeQuery()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(QUERY)) {
+            preparedStatement.setString(1, activeEnvironment);
 
-            while (rs.next()) {
-                Configuration configuration = new Configuration(rs);
-                propertySource.put(configuration.getPropertyName(), configuration.getPropertyValue());
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    Configuration configuration = new Configuration(rs);
+                    propertySource.put(configuration.getPropertyName(), configuration.getPropertyValue());
+                }
+
+                // Create a custom property source with the highest precedence and add it to Spring Environment
+                environment.getPropertySources().addFirst(new OriginTrackedMapPropertySource(PROPERTY_SOURCE_NAME, propertySource));
             }
 
-            // Create a custom property source with the highest precedence and add it to Spring Environment
-            environment.getPropertySources().addFirst(new OriginTrackedMapPropertySource(PROPERTY_SOURCE_NAME, propertySource));
 
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private PreparedStatement createPreparedStatement(Connection con, String environment) throws SQLException {
-        try (PreparedStatement ps = con.prepareStatement(QUERY)) {
-            ps.setString(1, environment);
-            return ps;
         }
     }
 

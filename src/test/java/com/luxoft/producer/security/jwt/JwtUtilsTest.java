@@ -45,7 +45,7 @@ class JwtUtilsTest {
     @BeforeEach
     protected void setKeyBeforeTest() {
         username = "test";
-        ReflectionTestUtils.setField(jwtUtilsMock, "JWT_KEY", JWT_KEY);
+        ReflectionTestUtils.setField(jwtUtilsMock, "jwtKey", JWT_KEY);
     }
 
     @Test

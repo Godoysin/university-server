@@ -2,13 +2,7 @@ package com.luxoft.producer.kafka.log;
 
 import org.aspectj.lang.Signature;
 
-public class SignatureTest implements Signature {
-
-    private final String name;
-
-    public SignatureTest(String name) {
-        this.name = name;
-    }
+public record SignatureTest(String name) implements Signature {
 
     @Override
     public String toShortString() {

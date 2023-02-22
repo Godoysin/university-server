@@ -2,12 +2,8 @@ package com.luxoft.producer.db.model;
 
 import com.luxoft.producer.security.constants.RoleEnum;
 import jakarta.persistence.*;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ValidationException;
-import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotBlank;
 
-import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -79,22 +75,6 @@ public class User {
 
     public boolean isEnabled() {
         return false;
-    }
-
-    public void validateInsert(Validator validator) {
-        Set<ConstraintViolation<User>> constraintViolationSet = validator.validate(this);
-
-        if (getId() != null)
-            throw new ValidationException("Id must be null on insertion");
-
-        if (!constraintViolationSet.isEmpty()) {
-            Optional<ConstraintViolation<User>> constraintViolationOptional = constraintViolationSet.stream().findFirst();
-
-            if (constraintViolationOptional.isPresent()) {
-                throw new ValidationException(constraintViolationOptional.get().getPropertyPath().toString() + " " + constraintViolationOptional.get().getMessage());
-            }
-        }
-
     }
 
 }

@@ -2,6 +2,8 @@ package com.luxoft.producer.service;
 
 import com.luxoft.producer.db.model.Role;
 import com.luxoft.producer.db.model.User;
+import com.luxoft.producer.service.validation.RoleValidationService;
+import com.luxoft.producer.service.validation.UserValidationService;
 import jakarta.ws.rs.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +15,23 @@ import java.util.Set;
 @Slf4j
 public class TransactionalManagerService {
 
+    private final RoleValidationService roleValidationService;
+
     private final UserManagementService userManagementService;
 
-    private final ValidationService validationService;
+    private final UserValidationService userValidationService;
 
     @Autowired
-    public TransactionalManagerService(UserManagementService userManagementService, ValidationService validationService) {
+    public TransactionalManagerService(RoleValidationService roleValidationService, UserManagementService userManagementService, UserValidationService userValidationService, ValidationService validationService) {
+        this.roleValidationService = roleValidationService;
         this.userManagementService = userManagementService;
-        this.validationService = validationService;
+        this.userValidationService = userValidationService;
     }
 
     public void createUserWithRole(User user, Set<Role> roleSet) {
         try {
-            user.validateInsert(validationService.getValidator());
-            roleSet.stream().forEach(e -> e.validateInsert(validationService.getValidator()));
+            userValidationService.validateUserInsertion(user);
+            roleValidationService.validateRoleInsertion(roleSet);
 
             userManagementService.createUserWithRole(user, roleSet);
         } catch (Exception e) {

@@ -22,20 +22,22 @@ public class KafkaProducerConfiguration {
     private String localhostIp;
 
     @Value("${kafka.bootstrap.servers.port}")
-    private String BOOTSTRAP_SERVERS_PORT;
+
+    private String bootstrapServersPort;
 
     @Value("${kafka.schema.registry.port}")
-    private String SCHEMA_REGISTRY_PORT;
+    private String schemaRegistryPort;
+
 
     @Bean
     public ProducerFactory<Void, Object> producerFactory() {
         Map<String, Object> properties = new HashMap<>();
 
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, localhostIp + ":" + BOOTSTRAP_SERVERS_PORT);
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, localhostIp + ":" + bootstrapServersPort);
         properties.put(ProducerConfig.CLIENT_ID_CONFIG, CLIENT_ID);
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, VoidSerializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class);
-        properties.put("schema.registry.url", "http://" + localhostIp + ":" + SCHEMA_REGISTRY_PORT);
+        properties.put("schema.registry.url", "http://" + localhostIp + ":" + schemaRegistryPort);
 
         return new DefaultKafkaProducerFactory<>(properties);
     }
