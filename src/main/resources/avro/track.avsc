@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "namespace": "com.luxoft.messages.avro",
+  "namespace": "com.project.messages.avro",
   "name": "TrackAvro",
   "version": "1",
   "fields": [
