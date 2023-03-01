@@ -1,0 +1,8 @@
+DONE - Resolve track.avsc warning.
+DONE - Add roles.
+DONE - Proper CRUD with interfaces.
+DONE - Create new user with roles (use @Transaction).
+DONE - Get configuration from DB during start up.
+DONE - Encrypt password.
+DONE - Profiles.
+Move app to Docker image.
