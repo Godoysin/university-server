@@ -1,8 +1,17 @@
 # university-server
 
-This is a **Java Spring Boot** practice project to mix knowledge from different sources. In this case, it is a RESP API to serve an university and Kafka producer to track the resources usage.
+This is a **Java Spring Boot** practice project to mix and test knowledge from different sources. In this case, it is a RESP API to serve an university and Kafka producer to track the resources usage.
 
-I'm using next **docker-compose.yaml** to initialize the environment:
+To create the image from of the Java project using the Dockerfile and execute it, it can be used:
+```shell
+mvn clean install
+docker image build -t university-server:0.1 .
+docker container run --rm --add-host=host.docker.internal:host-gateway --network practice_default -p 8990:8990 --name university-server -e "SPRING_PROFILES_ACTIVE=dev" -e JAVA_TOOL_OPTIONS="-DMYSQL_HOST=<YOUR_IP_ADDRESS> -DLOCALHOST_IP=<YOUR_IP_ADDRESS>" university-server:0.1
+```
+<MYSQL_IP> is got from the mysql container inspecting it.
+<KAFKA_IP> is got from the host that serves the cluster, in Windows, I'm taking IPv4 direction using ipconfig in a terminal.
+
+**docker-compose.yaml** is used to initialize the environment:
 ```yaml
 version: '3'
 services:
@@ -30,7 +39,7 @@ services:
       KAFKA_kafka_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:19092,PLAINTEXT_HOST://${HOST_IP}:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:19092,PLAINTEXT_HOST://${KAFKA_IP}:9092
       CONFLUENT_METRICS_ENABLE: 'false'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
@@ -121,17 +130,13 @@ volumes:
   mysqlvolume:
     driver: local
 ```
-It is also used a .env file.
+It is also used a .env file to specify the host IP where the Kafka cluster is running:
 ```yaml
-HOST_IP=<YOUR_IP_ADDRESS>
+KAFKA_IP=<KAFKA_IP>
 ```
+<KAFKA_IP> is got from the host that serves the cluster, in Windows, I'm taking IPv4 direction using ipconfig in a terminal.
 
-To create the image from the Java project and execute it, it can be used:
-```shell
-docker image build -t university_producer_app:0.1 .
-docker container run --rm --add-host=host.docker.internal:host-gateway --network practice_default -p 8990:8990 --name university_producer -e "SPRING_PROFILES_ACTIVE=dev" -e JAVA_TOOL_OPTIONS="-DMYSQL_HOST=<YOUR_IP_ADDRESS> -DLOCALHOST_IP=<YOUR_IP_ADDRESS>" university_producer_app:0.1
-```
-I also use this SQL script to initialize DB tables and content: **init.sql**
+This SQL script is also used to initialize DB tables and populate it: **init.sql**
 ```sql
 CREATE DATABASE university;
 CREATE USER 'springuser'@'%' IDENTIFIED BY 'ThePassword';

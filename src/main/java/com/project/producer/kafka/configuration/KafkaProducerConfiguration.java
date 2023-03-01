@@ -18,11 +18,10 @@ public class KafkaProducerConfiguration {
 
     private static final String CLIENT_ID = "ex";
 
-    @Value("${localhost.ip}")
-    private String localhostIp;
+    @Value("${kafka.ip}")
+    private String kafkaIp;
 
     @Value("${kafka.bootstrap.servers.port}")
-
     private String bootstrapServersPort;
 
     @Value("${kafka.schema.registry.port}")
@@ -33,11 +32,11 @@ public class KafkaProducerConfiguration {
     public ProducerFactory<Void, Object> producerFactory() {
         Map<String, Object> properties = new HashMap<>();
 
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, localhostIp + ":" + bootstrapServersPort);
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaIp + ":" + bootstrapServersPort);
         properties.put(ProducerConfig.CLIENT_ID_CONFIG, CLIENT_ID);
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, VoidSerializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class);
-        properties.put("schema.registry.url", "http://" + localhostIp + ":" + schemaRegistryPort);
+        properties.put("schema.registry.url", "http://" + kafkaIp + ":" + schemaRegistryPort);
 
         return new DefaultKafkaProducerFactory<>(properties);
     }
