@@ -1,6 +1,7 @@
 package com.project.producer.kafka.log;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -41,7 +42,39 @@ class LoggingAspectTest {
         // given
         String methodName = "chosenMethod";
 
-        SignatureTest signatureTest = new SignatureTest(methodName);
+        // Using anonymous class to instance an object of the Signature interface
+        Signature signatureTest = new Signature() {
+            @Override
+            public String toShortString() {
+                return null;
+            }
+
+            @Override
+            public String toLongString() {
+                return null;
+            }
+
+            @Override
+            public String getName() {
+                return methodName;
+            }
+
+            @Override
+            public int getModifiers() {
+                return 0;
+            }
+
+            @Override
+            public Class getDeclaringType() {
+                return null;
+            }
+
+            @Override
+            public String getDeclaringTypeName() {
+                return null;
+            }
+        };
+
         when(joinPointMock.getSignature()).thenReturn(signatureTest);
 
         when(joinPointMock.getArgs()).thenReturn(objects);
